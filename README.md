@@ -29,6 +29,7 @@ GCC / Clang (gcc -O2 -DSAFETY)
 
 ## 📂 Модели в репозитории
 
+### Системные и сетевые алгоритмы:
 | Файл | Описание | Тип проверки |
 |---|---|---|
 | [`mutex_peterson.pml`](./mutex_peterson.pml) | Алгоритм взаимного исключения Питерсона | Mutual Exclusion, LTL |
@@ -36,6 +37,12 @@ GCC / Clang (gcc -O2 -DSAFETY)
 | [`dekker_mutex.pml`](./dekker_mutex.pml) | Алгоритм Деккера для 2 процессов | Safety Assertion, LTL |
 | [`alternating_bit_protocol.pml`](./alternating_bit_protocol.pml) | Протокол передачи с чередованием бит (ABP) | Progress, Reliable delivery |
 | [`mutex_buggy.pml`](./mutex_buggy.pml) | Тестовая модель с ошибкой (Race condition / Deadlock) | Assertion Failure, `.trail` trace |
+
+### Экономические и финансовые модели:
+| Файл | Описание | Инвариант / LTL |
+|---|---|---|
+| [`bank_transfer.pml`](./bank_transfer.pml) | Параллельные денежные переводы между банковскими счетами | Закон сохранения денег (`sum == INITIAL_TOTAL`) |
+| [`auction_system.pml`](./auction_system.pml) | Аукцион с закрытыми/открытыми ставками и возвратом средств | Корректность расчетов и передачи товара победителю |
 
 ---
 
@@ -46,7 +53,13 @@ GCC / Clang (gcc -O2 -DSAFETY)
 make all
 ```
 
-### 2. Верификация отдельных моделей
+### 2. Верификация экономических моделей
+```bash
+make verify-bank      # Банковские переводы (сохранение баланса)
+make verify-auction   # Торги на аукционе
+```
+
+### 3. Верификация алгоритмов конкурентности
 ```bash
 make verify-peterson       # Алгоритм Питерсона
 make verify-philosophers   # Обедающие философы
@@ -54,16 +67,10 @@ make verify-dekker         # Алгоритм Деккера
 make verify-abp            # Протокол ABP
 ```
 
-### 3. Запуск пошаговой трассировки ошибки (Counterexample Trace)
+### 4. Запуск пошаговой трассировки ошибки (Counterexample Trace)
 Для модели с ошибочным состоянием (`mutex_buggy.pml`):
 ```bash
 make trace-buggy
-```
-*Запустит верификатор, найдет ошибку, сформирует файл `.trail` и пошагово восстановит последовательность событий (`spin -t -p`).*
-
-### 4. Интерактивный bash-скрипт
-```bash
-./run_pipeline.sh
 ```
 
 ---

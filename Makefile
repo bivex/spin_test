@@ -3,9 +3,9 @@
 CC ?= gcc
 CFLAGS ?= -O2 -DSAFETY -DNOLNACK
 
-.PHONY: all verify-peterson verify-philosophers verify-dekker verify-abp verify-buggy trace-buggy clean
+.PHONY: all verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction verify-buggy trace-buggy clean
 
-all: verify-peterson verify-philosophers verify-dekker verify-abp
+all: verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction
 
 verify-peterson:
 	@echo "=== Verifying Peterson Mutex Algorithm ==="
@@ -28,6 +28,18 @@ verify-dekker:
 verify-abp:
 	@echo "=== Verifying Alternating Bit Protocol ==="
 	spin -a alternating_bit_protocol.pml
+	$(CC) $(CFLAGS) -o pan pan.c
+	./pan
+
+verify-bank:
+	@echo "=== Verifying Economic Bank Transfer System ==="
+	spin -a bank_transfer.pml
+	$(CC) $(CFLAGS) -o pan pan.c
+	./pan
+
+verify-auction:
+	@echo "=== Verifying Economic Auction Bidding System ==="
+	spin -a auction_system.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
 
