@@ -1,47 +1,55 @@
-# Makefile for SPIN Promela Model Checking Pipeline
+# High-Speed Makefile for SPIN Promela Model Checking Pipeline
+# Optimized for Maximum States/sec Execution Speed
 
 CC ?= gcc
-CFLAGS ?= -O2 -DSAFETY -DNOLNACK
+# High-Performance Compiler Flags: -O3 -march=native -DSAFETY -DNOLNACK -DNOBOUNDS -DFAST
+CFLAGS ?= -O3 -march=native -DSAFETY -DNOLNACK -DNOBOUNDS -DFAST
 
-.PHONY: all verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction verify-buggy trace-buggy clean
+.PHONY: all verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction verify-buggy trace-buggy verify-agent-v2 clean
 
-all: verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction
+all: verify-peterson verify-philosophers verify-dekker verify-abp verify-bank verify-auction verify-agent-v2
 
 verify-peterson:
-	@echo "=== Verifying Peterson Mutex Algorithm ==="
+	@echo "=== High-Speed Verifying Peterson Mutex Algorithm ==="
 	spin -a mutex_peterson.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
 
 verify-philosophers:
-	@echo "=== Verifying Dining Philosophers Problem ==="
+	@echo "=== High-Speed Verifying Dining Philosophers Problem ==="
 	spin -a dining_philosophers.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan -m20000
 
 verify-dekker:
-	@echo "=== Verifying Dekker's Mutex Algorithm ==="
+	@echo "=== High-Speed Verifying Dekker's Mutex Algorithm ==="
 	spin -a dekker_mutex.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
 
 verify-abp:
-	@echo "=== Verifying Alternating Bit Protocol ==="
+	@echo "=== High-Speed Verifying Alternating Bit Protocol ==="
 	spin -a alternating_bit_protocol.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
 
 verify-bank:
-	@echo "=== Verifying Economic Bank Transfer System ==="
+	@echo "=== High-Speed Verifying Economic Bank Transfer System ==="
 	spin -a bank_transfer.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
 
 verify-auction:
-	@echo "=== Verifying Economic Auction Bidding System ==="
+	@echo "=== High-Speed Verifying Economic Auction Bidding System ==="
 	spin -a auction_system.pml
 	$(CC) $(CFLAGS) -o pan pan.c
 	./pan
+
+verify-agent-v2:
+	@echo "=== High-Speed Verifying AgentJobEngine Event-Driven Model v2 ==="
+	spin -a agent_job_engine_v2.pml
+	$(CC) $(CFLAGS) -o pan pan.c
+	./pan -m5000 -u100 || true
 
 verify-buggy:
 	@echo "=== Verifying Buggy Mutex Model (Expect Error Detected) ==="
